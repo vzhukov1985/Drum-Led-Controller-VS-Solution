@@ -1,0 +1,20 @@
+Drum LED Patch File Structure:
+
+I. Header(9 Bytes per each strip = 9 x 5 = 45):
+	Each Strip x 5:
+		1 Byte - Connection direction: 0(Out->Trig->Prog) 1(Out->Prog->Trig)
+		1 Byte - Does the strip have additional OneColor Strip: 0 - doesn't have; 1 - has
+		1 Byte - OneColor Strip Behaviour: 0 - Always Off; 1 - Always On; 2 - TriggerActivation
+		1 Byte - Trigger color: 0 - constant; 1 - Random
+		1 Byte - Trigger Red
+		1 Byte - Trigger Green
+		1 Byte - Trigger Blue
+		1 Byte - Triggered Leds Count
+		1 Byte - Programmed Leds Count
+
+II. One Frame Length (1 Byte)
+III. Frame Count (uint16_t)
+IV. FPS (1 Byte)
+V. Brightness (1 Byte)
+
+IV. Frames data

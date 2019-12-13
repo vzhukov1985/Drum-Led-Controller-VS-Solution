@@ -1,0 +1,30 @@
+Trigger Ins:
+1. Kick - A1
+2. Snare - A2
+3. HiTom - A3
+4. MidTom - A4
+5. LowTom - A5
+
+Strip Outs:
+1. UV - D9
+2. Kick - D2
+3. Snare - D14
+4. HiTom - D7
+5. MidTom - D8
+6. LowTom - D6
+
+Buttons:
+1. On/Off Switch - D24
+2. Next Switch - D25
+
+Status LED:
+1. Red - D3
+2. Green - D4
+
+!!!Do Not Use:
+D5
+D12
+D20
+D21
+D29
+D30

@@ -5,16 +5,57 @@ VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Drum_Led_Controller_Firmware", "Drum_Led_Controller_Firmware\Drum_Led_Controller_Firmware.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Useful Info", "Useful Info", "{13CA4112-BDFF-4D15-9353-BCF4082F3D6A}"
+	ProjectSection(SolutionItems) = preProject
+		dlp File Structure.txt = dlp File Structure.txt
+		OctoWS2811.html = OctoWS2811.html
+		Pins Info.txt = Pins Info.txt
+		Drum_Led_Controller_Firmware\Libraries\SdFs\2018.6.24\SdFs\doc\SdFs.html = Drum_Led_Controller_Firmware\Libraries\SdFs\2018.6.24\SdFs\doc\SdFs.html
+		Test Strip Lengths.txt = Test Strip Lengths.txt
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SdFs-2018.6.24", "Drum_Led_Controller_Firmware\Libraries\SdFs\2018.6.24\SdFs\SdFs-2018.6.24.vcxitems", "{94FB1662-C33D-498F-AB31-55C81359210E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OctoWS2811-1.4", "Drum_Led_Controller_Firmware\Libraries\OctoWS2811\1.4\OctoWS2811\OctoWS2811-1.4.vcxitems", "{D25857B9-D4F7-4A3E-A7A9-07D2D6DAB416}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drum_Led_Patch_Editor", "Drum_Led_Patch_Editor\Drum_Led_Patch_Editor.csproj", "{B489003D-D14F-46AF-9819-B8CD3B65FD1E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShiftIn-1.0.0", "Drum_Led_Controller_Firmware\Libraries\ShiftIn\1.0.0\ShiftIn\ShiftIn-1.0.0.vcxitems", "{EBD1A5BD-872E-45E5-A323-CD3D3FEAB690}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bounce-0.0.0", "Drum_Led_Controller_Firmware\Libraries\Bounce\0.0.0\Bounce\Bounce-0.0.0.vcxitems", "{7252E941-41D2-43A3-862B-2479EBDF6500}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Drum_Led_Controller_Firmware\Libraries\Bounce\0.0.0\Bounce\Bounce-0.0.0.vcxitems*{7252e941-41d2-43a3-862b-2479ebdf6500}*SharedItemsImports = 9
+		Drum_Led_Controller_Firmware\Libraries\SdFs\2018.6.24\SdFs\SdFs-2018.6.24.vcxitems*{94fb1662-c33d-498f-ab31-55c81359210e}*SharedItemsImports = 9
+		Drum_Led_Controller_Firmware\Libraries\Bounce\0.0.0\Bounce\Bounce-0.0.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Drum_Led_Controller_Firmware\Libraries\OctoWS2811\1.4\OctoWS2811\OctoWS2811-1.4.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Drum_Led_Controller_Firmware\Libraries\SdFs\2018.6.24\SdFs\SdFs-2018.6.24.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Drum_Led_Controller_Firmware\Libraries\ShiftIn\1.0.0\ShiftIn\ShiftIn-1.0.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Drum_Led_Controller_Firmware\Libraries\OctoWS2811\1.4\OctoWS2811\OctoWS2811-1.4.vcxitems*{d25857b9-d4f7-4a3e-a7a9-07d2d6dab416}*SharedItemsImports = 9
+		Drum_Led_Controller_Firmware\Libraries\ShiftIn\1.0.0\ShiftIn\ShiftIn-1.0.0.vcxitems*{ebd1a5bd-872e-45e5-a323-cd3d3feab690}*SharedItemsImports = 9
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.ActiveCfg = Debug|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.Build.0 = Debug|Win32
+		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|Any CPU.ActiveCfg = Release|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.ActiveCfg = Release|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.Build.0 = Release|Win32
+		{B489003D-D14F-46AF-9819-B8CD3B65FD1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B489003D-D14F-46AF-9819-B8CD3B65FD1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B489003D-D14F-46AF-9819-B8CD3B65FD1E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B489003D-D14F-46AF-9819-B8CD3B65FD1E}.Debug|x86.Build.0 = Debug|Any CPU
+		{B489003D-D14F-46AF-9819-B8CD3B65FD1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B489003D-D14F-46AF-9819-B8CD3B65FD1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B489003D-D14F-46AF-9819-B8CD3B65FD1E}.Release|x86.ActiveCfg = Release|Any CPU
+		{B489003D-D14F-46AF-9819-B8CD3B65FD1E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

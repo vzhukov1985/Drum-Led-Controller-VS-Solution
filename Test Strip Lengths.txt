@@ -1,0 +1,5 @@
+1. Kick - 28 leds
+2. Snare - 20 leds
+3. HiTom - 18 leds
+4. MidTom - 10 leds
+5. LowTom - 10 leds
