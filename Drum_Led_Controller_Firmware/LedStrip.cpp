@@ -19,6 +19,11 @@ void LedStripClass::init(OctoWS2811* ledsEngine, uint16_t ledsPerStripMaxUsed, u
     {
         leds->setPixel(i, 0, 0, 0);
     }
+    
+    if (setAdditionalStripPin > 0)
+    {
+        pinMode(additionalStripPin, OUTPUT);
+    }
 }
 
 void LedStripClass::updateStripData()
@@ -34,7 +39,17 @@ void LedStripClass::updateStripData()
         trigLedsStartAddress = startAddress + progLedsCount;
     }
 
- 
+    if (hasAdditionalStrip)
+    {
+        if (additionalStripBehaviour == AlwaysOn)
+        {
+            analogWrite(additionalStripPin, 1023);
+        }
+        else
+        {
+            analogWrite(additionalStripPin, 0);
+        }
+    }
 }
 
 void LedStripClass::updateProgLeds(uint8_t *frameBuffer, uint8_t brightness)
@@ -114,6 +129,11 @@ void LedStripClass::triggerHitProcess(uint8_t brightness, uint16_t speed)
         leds->setPixel(trigLedsStartAddress + i, (uint8_t)triggerColorR * brightnessMult, (uint8_t)triggerColorG * brightnessMult, (uint8_t)triggerColorB * brightnessMult);
     }
 
+    if ((additionalStripBehaviour == Trigger) && (hasAdditionalStrip == true))
+    {
+        float uvBrightness = map((float)trigLedsHitBrightness, 0, 1000, 0, 1);
+        analogWrite(additionalStripPin, (int)1023 * uvBrightness);
+    }
 }
 
 void LedStripClass::turnStripOff()
@@ -122,5 +142,8 @@ void LedStripClass::turnStripOff()
     {
         leds->setPixel(i, 0, 0, 0);
     }
+
+    if (hasAdditionalStrip)
+        analogWrite(additionalStripPin, 0);
 }
 

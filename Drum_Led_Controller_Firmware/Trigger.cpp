@@ -23,7 +23,7 @@ uint16_t TriggerClass::processDetection()
 
 	if ((detectorMillis > detectPeriod) && isDetectStarted)
 	{
-		int velocity = map(maxVal, lowThreshold, highThreshold, 0, 255);
+		int velocity = map(maxVal, lowThreshold, highThreshold, 1, 255);
 
 		isDetectStarted = false;
 		maxVal = 0;

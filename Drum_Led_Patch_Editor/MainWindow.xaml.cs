@@ -44,15 +44,15 @@ namespace Drum_Led_Patch_Editor
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
-                dlpFileWriter.Write((byte)10);
-                dlpFileWriter.Write((byte)18);
+                dlpFileWriter.Write((byte)0);
+                dlpFileWriter.Write((byte)27);
 
                 //Snare
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
+                dlpFileWriter.Write((byte)1);
                 dlpFileWriter.Write((byte)0);
-                dlpFileWriter.Write((byte)255);
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)5);
@@ -62,48 +62,48 @@ namespace Drum_Led_Patch_Editor
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
+                dlpFileWriter.Write((byte)1);
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
-                dlpFileWriter.Write((byte)255);
                 dlpFileWriter.Write((byte)0);
-                dlpFileWriter.Write((byte)4);
-                dlpFileWriter.Write((byte)14);
+                dlpFileWriter.Write((byte)22);
+                dlpFileWriter.Write((byte)17);
 
                 //MidTom
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
+                dlpFileWriter.Write((byte)1);
                 dlpFileWriter.Write((byte)0);
-                dlpFileWriter.Write((byte)255);
                 dlpFileWriter.Write((byte)0);
-                dlpFileWriter.Write((byte)255);
-                dlpFileWriter.Write((byte)3);
-                dlpFileWriter.Write((byte)7);
+                dlpFileWriter.Write((byte)0);
+                dlpFileWriter.Write((byte)27);
+                dlpFileWriter.Write((byte)17);
 
                 //LowTom
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
                 dlpFileWriter.Write((byte)0);
+                dlpFileWriter.Write((byte)1);
                 dlpFileWriter.Write((byte)0);
-                dlpFileWriter.Write((byte)255);
-                dlpFileWriter.Write((byte)255);
-                dlpFileWriter.Write((byte)255);
-                dlpFileWriter.Write((byte)2);
-                dlpFileWriter.Write((byte)8);
+                dlpFileWriter.Write((byte)0);
+                dlpFileWriter.Write((byte)0);
+                dlpFileWriter.Write((byte)37);
+                dlpFileWriter.Write((byte)24);
 
                 //Frame Length
-                dlpFileWriter.Write((byte)18);
+                dlpFileWriter.Write((byte)27);
                 //Frame Count
-                dlpFileWriter.Write((UInt16)130);
+                dlpFileWriter.Write((UInt16)131);
                 //FPS
                 dlpFileWriter.Write((byte)30);
                 //Triggered Leds Brightness
                 dlpFileWriter.Write((byte)255);
                 //Programmed Leds Brightness
-                dlpFileWriter.Write((byte)90);
+                dlpFileWriter.Write((byte)255);
 
                 //Frames Data
-                for (int i = 0; i < 130; i++)
+                for (int i = 0; i < 131; i++)
                 {
                     byte[] frame = new byte[18 * 3];
                     frame = jinxFileReader.ReadBytes(18 * 3);
@@ -115,6 +115,20 @@ namespace Drum_Led_Patch_Editor
                     frame = jinxFileReader.ReadBytes(18 * 3);
                 }
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            BinaryWriter iniFileWriter = new BinaryWriter(File.Create("D:\\Settings.ini"));
+            iniFileWriter.Write((UInt16)30); //trigHitShowSpeed
+
+            for (int i = 0; i < 5; i++)
+            {
+                iniFileWriter.Write((UInt16)10); //LowThreshold
+                iniFileWriter.Write((UInt16)1023); //HighThreshold
+                iniFileWriter.Write((UInt16)20); //DetectPeriod 
+            }
+
         }
     }
 }

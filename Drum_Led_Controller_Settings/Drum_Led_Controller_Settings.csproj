@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B489003D-D14F-46AF-9819-B8CD3B65FD1E}</ProjectGuid>
+    <ProjectGuid>{38CC4415-2F66-4A06-8911-2D7C6D30EEFD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Drum_Led_Patch_Editor</RootNamespace>
-    <AssemblyName>Drum_Led_Patch_Editor</AssemblyName>
+    <RootNamespace>Drum_Led_Controller_Settings</RootNamespace>
+    <AssemblyName>Drum_Led_Controller_Settings</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -61,6 +61,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\RelayCommand.cs" />
+    <Compile Include="Classes\SerialConnection.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Classes\TriggerSetting.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -69,6 +73,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\ControllerSettings.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

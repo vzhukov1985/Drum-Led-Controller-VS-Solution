@@ -36,7 +36,7 @@ private:
 
 
  public:
-	 FsFile optionsFile;
+	 FsFile settingsFile;
 	 FsFile presetFile;
 
 	bool init();

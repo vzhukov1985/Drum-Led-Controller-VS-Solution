@@ -1,0 +1,7 @@
+Settings for contoller:
+1. General - Trigger Hit show speed
+
+For every led strip
+1. Piezo Low Threshold
+2. Piezo High Threshold
+3. Hit Detect Speed

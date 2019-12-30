@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:Drum_Led_Patch_Editor"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button Content="Start" Width="100" Height="40" Click="Button_Click" />
-    </Grid>
+    
+        <StackPanel VerticalAlignment="Center">
+            <Button Content="Start" Width="100" Height="40" Click="Button_Click" />
+            <Button Content="asd" Width="100" Height="40" Margin="10,10,10,10" Click="Button_Click_1" />
+        </StackPanel>
+    
 </Window>

@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Useful Info", "Useful Info"
 		Pins Info.txt = Pins Info.txt
 		Drum_Led_Controller_Firmware\Libraries\SdFs\2018.6.24\SdFs\doc\SdFs.html = Drum_Led_Controller_Firmware\Libraries\SdFs\2018.6.24\SdFs\doc\SdFs.html
 		Test Strip Lengths.txt = Test Strip Lengths.txt
+		Variables to setup.txt = Variables to setup.txt
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SdFs-2018.6.24", "Drum_Led_Controller_Firmware\Libraries\SdFs\2018.6.24\SdFs\SdFs-2018.6.24.vcxitems", "{94FB1662-C33D-498F-AB31-55C81359210E}"
@@ -23,6 +24,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShiftIn-1.0.0", "Drum_Led_Controller_Firmware\Libraries\ShiftIn\1.0.0\ShiftIn\ShiftIn-1.0.0.vcxitems", "{EBD1A5BD-872E-45E5-A323-CD3D3FEAB690}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bounce-0.0.0", "Drum_Led_Controller_Firmware\Libraries\Bounce\0.0.0\Bounce\Bounce-0.0.0.vcxitems", "{7252E941-41D2-43A3-862B-2479EBDF6500}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drum_Led_Controller_Settings", "Drum_Led_Controller_Settings\Drum_Led_Controller_Settings.csproj", "{38CC4415-2F66-4A06-8911-2D7C6D30EEFD}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -56,6 +59,14 @@ Global
 		{B489003D-D14F-46AF-9819-B8CD3B65FD1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B489003D-D14F-46AF-9819-B8CD3B65FD1E}.Release|x86.ActiveCfg = Release|Any CPU
 		{B489003D-D14F-46AF-9819-B8CD3B65FD1E}.Release|x86.Build.0 = Release|Any CPU
+		{38CC4415-2F66-4A06-8911-2D7C6D30EEFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38CC4415-2F66-4A06-8911-2D7C6D30EEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38CC4415-2F66-4A06-8911-2D7C6D30EEFD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{38CC4415-2F66-4A06-8911-2D7C6D30EEFD}.Debug|x86.Build.0 = Debug|Any CPU
+		{38CC4415-2F66-4A06-8911-2D7C6D30EEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38CC4415-2F66-4A06-8911-2D7C6D30EEFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38CC4415-2F66-4A06-8911-2D7C6D30EEFD}.Release|x86.ActiveCfg = Release|Any CPU
+		{38CC4415-2F66-4A06-8911-2D7C6D30EEFD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

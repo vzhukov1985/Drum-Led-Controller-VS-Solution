@@ -24,11 +24,11 @@ void LedStripsClass::updateProgLeds(uint8_t* frameBuffer)
 	}
 }
 
-void LedStripsClass::triggersHitProcess(uint8_t brightness, uint16_t speed)
+void LedStripsClass::triggersHitProcess(uint8_t brightness)
 {
 	for (int i = 0; i < LED_STRIPS_COUNT; i++)
 	{
-		strip[i].triggerHitProcess(trigBrightness, speed);
+		strip[i].triggerHitProcess(trigBrightness, trigHitShowSpeed);
 	}
 }
 

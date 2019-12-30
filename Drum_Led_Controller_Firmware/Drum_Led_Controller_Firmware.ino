@@ -33,13 +33,36 @@ uint16_t curPreset = 0;
 uint8_t frameBuffer[LEDS_PER_STRIP_MAX * 3];
 uint32_t microsPerFrame;
 elapsedMicros frameElapsedMicros;
+elapsedMillis settingsFileUpdaterTimer;
+bool settingsFileUpdated = true;
 bool enabled = false;
 bool firstRun = true;
 
+void readSettings()
+{
+	sd.settingsFile.open("Settings.ini", O_RDWR);
+	sd.settingsFile.read(&ledStrips.trigHitShowSpeed, 2);
 
-//Controller Settings
-uint16_t triggerHitShowSpeed = 30; //The lower - slower, higher - faster
+	for (int i = 0; i < 5; i++)
+	{
+		sd.settingsFile.read(&triggers[i].lowThreshold, 2);
+		sd.settingsFile.read(&triggers[i].highThreshold, 2);
+		sd.settingsFile.read(&triggers[i].detectPeriod, 2);
+	}
+}
 
+void writeSettings()
+{
+	sd.settingsFile.seek(0);
+	sd.settingsFile.write(&ledStrips.trigHitShowSpeed, 2);
+
+	for (int i = 0; i < 5; i++)
+	{
+		sd.settingsFile.write(&triggers[i].lowThreshold, 2);
+		sd.settingsFile.write(&triggers[i].highThreshold, 2);
+		sd.settingsFile.write(&triggers[i].detectPeriod, 2);
+	}
+}
 
 void readCurrentPresetInfo()
 {
@@ -56,8 +79,49 @@ void readCurrentPresetInfo()
 	ledStrips.progBrightness = sd.readProgBrightness();
 }
 
+void ProcessSerial()
+{
+	char cmdHeader[7];
+	cmdHeader[6] = '\0';
+	while (Serial.available())
+	{
+		Serial.readBytes(cmdHeader, 6);
+		if (strcmp(cmdHeader, "PCREQS") == 0)
+		{
+			//Sending settings
+			char outHeader[7] = "CPSETS";
+			Serial.write(outHeader);
+			Serial.write((byte *)&ledStrips.trigHitShowSpeed, 2);
+			for (int i = 0; i < TRIGGERS_COUNT; i++)
+			{
+				Serial.write((byte*)&triggers[i].detectPeriod, 2);
+				Serial.write((byte*)&triggers[i].lowThreshold, 2);
+				Serial.write((byte*)&triggers[i].highThreshold, 2);
+			}
+		}
+		if (strcmp(cmdHeader, "PCSETS") == 0)
+		{
+			//Receiving settings
+			Serial.readBytes((char *) &ledStrips.trigHitShowSpeed, 2);
+			for (int i = 0; i < TRIGGERS_COUNT; i++)
+			{
+				Serial.readBytes((char*)&triggers[i].detectPeriod, 2);
+				Serial.readBytes((char*)&triggers[i].lowThreshold, 2);
+				Serial.readBytes((char*)&triggers[i].highThreshold, 2);
+			}
+
+			settingsFileUpdated = false;
+			settingsFileUpdaterTimer = 0;
+		}
+	}
+}
+
 void setup() {
 	controls.init();
+
+	pinMode(9, OUTPUT);
+	analogWrite(9, 1023);
+
 	pinMode(BUTTON_ON_OFF, INPUT_PULLUP);
 	pinMode(BUTTON_NEXT, INPUT_PULLUP);
 
@@ -75,6 +139,8 @@ void setup() {
 	triggers[3].init(A4);
 	triggers[4].init(A5);
 
+	//Reading settings.ini
+	readSettings();
 
 	if (sd.openPreset(curPreset))
 	{
@@ -88,11 +154,25 @@ void setup() {
 }
 
 void loop() {
+	ProcessSerial();
+
+	if ((settingsFileUpdated == false) && settingsFileUpdaterTimer > 1000)
+	{
+		writeSettings();
+		settingsFileUpdated = true;
+	}
+
 	if (buttonOnOff.update() && buttonOnOff.risingEdge() && !firstRun)
 	{
-		if (enabled)
-			ledStrips.turnStripsOff();
 		enabled = !enabled;
+
+		for (int i = 0; i < LED_STRIPS_COUNT; i++)
+		{
+			ledStrips.strip[i].updateStripData();
+		}
+
+		if (!enabled)
+			ledStrips.turnStripsOff();
 	}
 	if (buttonNext.update() && buttonNext.risingEdge() && !firstRun)
 	{
@@ -114,7 +194,7 @@ void loop() {
 				ledStrips.strip[i].triggerHit(velocity);
 		}
 
-		ledStrips.triggersHitProcess(ledStrips.trigBrightness, triggerHitShowSpeed);
+		ledStrips.triggersHitProcess(ledStrips.trigBrightness);
 
 		if (frameElapsedMicros > microsPerFrame)
 		{

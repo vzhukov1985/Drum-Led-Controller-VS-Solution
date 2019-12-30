@@ -22,13 +22,14 @@ class LedStripsClass
 
  public:
 	LedStripClass strip[LED_STRIPS_COUNT];
+	uint16_t trigHitShowSpeed = 30;  //The lower - slower, higher - faster
 	uint8_t fps = 30;
 	uint8_t trigBrightness = 255;
 	uint8_t progBrightness = 255;
 
 	void init(OctoWS2811* ledsEngine, uint16_t ledsPerStripMaxUsed);
 	void updateProgLeds(uint8_t* frameBuffer);
-	void triggersHitProcess(uint8_t brightness, uint16_t speed);
+	void triggersHitProcess(uint8_t brightness);
 	void turnStripsOff();
 };
 
