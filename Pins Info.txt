@@ -1,3 +1,14 @@
+HC-12 Commands:
+AT+B9600
+AT+C032
+AT+FU3
+AT+P8
+
+HC-12:
+D0 - To TX
+D1 - To RX
+D11 - To Set
+
 Trigger Ins:
 1. Kick - A1
 2. Snare - A2

@@ -131,8 +131,9 @@ void LedStripClass::triggerHitProcess(uint8_t brightness, uint16_t speed)
 
     if ((additionalStripBehaviour == Trigger) && (hasAdditionalStrip == true))
     {
-        float uvBrightness = map((float)trigLedsHitBrightness, 0, 1000, 0, 1);
-        analogWrite(additionalStripPin, (int)1023 * uvBrightness);
+        float uvBrightness = map((float)trigHitVelocity, 0, 255, 0, 1) * map((float)trigLedsHitBrightness, 0, 1000, 0, 1);
+        //float uvBrightness = map((float)trigLedsHitBrightness, 0, 1000, 0, 1);
+        analogWrite(additionalStripPin, (int)(1023 * uvBrightness));
     }
 }
 

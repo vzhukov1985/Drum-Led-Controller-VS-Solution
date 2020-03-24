@@ -151,6 +151,7 @@ void setup() {
 	{
 		controls.ledTurnOnRed();
 	}
+	ledStrips.turnStripsOff();
 }
 
 void loop() {

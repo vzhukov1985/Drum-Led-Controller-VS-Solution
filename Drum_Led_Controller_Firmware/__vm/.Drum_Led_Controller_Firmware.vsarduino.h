@@ -15,6 +15,7 @@
 #define _VSARDUINO_H_
 #define __HARDWARE_mk66fx1m0__
 #define __HARDWARE_MK66FX1M0__
+#define _VMDEBUG 1
 #define __MK66FX1M0__
 #define TEENSYDUINO 146
 #define ARDUINO 10809
@@ -39,8 +40,9 @@ typedef void *__builtin_va_list;
 #define NEW_H
 #undef _WIN32
 #define __STDC__ 
-#define __GNUC__ 2
-#define __GNUC_MINOR__ 5
+//#define __GNUC__ 2
+//#define __GNUC_MINOR__ 5
+#define __ARM_ARCH_7EM__
 
 extern int at_quick_exit(void (*f)(void));
 int at_quick_exit(void (*f)(void)) {

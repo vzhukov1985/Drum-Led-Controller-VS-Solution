@@ -29,7 +29,7 @@ namespace Drum_Led_Controller_Settings.Classes
             set
             {
                 detectPeriod = value;
-                OnPropertyChanged("DetectValue");
+                OnPropertyChanged("DetectPeriod");
             }
         }
 
