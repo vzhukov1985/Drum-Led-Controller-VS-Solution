@@ -28,5 +28,13 @@ enum TriggerColorMode
 	Random
 };
 
+enum CmdStatus
+{
+	Cmd_WaitHeader,
+	Cmd_Wait_Type,
+	Cmd_Wait_DataLength,
+	Cmd_Wait_Data
+};
+
 #endif
 

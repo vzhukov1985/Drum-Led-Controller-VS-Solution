@@ -8,6 +8,7 @@
 #include "Types.h"
 #include "Controls.h"
 #include "LedStrips.h"
+#include "WirelessHC.h"
 
 #define LEDS_PER_STRIP_MAX 200
 #define TRIGGERS_COUNT 5
@@ -20,6 +21,7 @@ ControlsClass controls; //Buttons & StatusLed
 SdCardClass sd;
 LedStripsClass ledStrips;
 TriggerClass triggers[TRIGGERS_COUNT];
+WirelessHCClass wirelessHC;
 
 DMAMEM int displayMemory[LEDS_PER_STRIP_MAX * 6];
 int drawingMemory[LEDS_PER_STRIP_MAX * 6];
@@ -139,6 +141,11 @@ void setup() {
 	triggers[3].init(A4);
 	triggers[4].init(A5);
 
+	//Initializing Wireless HC-12
+	wirelessHC.init();
+	wirelessHC.nextFunction = SwitchToNextPreset;
+	wirelessHC.onOffFunction = OnOffStrips;
+
 	//Reading settings.ini
 	readSettings();
 
@@ -154,36 +161,38 @@ void setup() {
 	ledStrips.turnStripsOff();
 }
 
+void OnOffStrips()
+{
+	enabled = !enabled;
+
+	for (int i = 0; i < LED_STRIPS_COUNT; i++)
+	{
+		ledStrips.strip[i].updateStripData();
+	}
+
+	if (!enabled)
+		ledStrips.turnStripsOff();
+}
+
+void SwitchToNextPreset()
+{
+	curPreset++;
+	if (!sd.openPreset(curPreset))
+	{
+		curPreset = 0;
+		sd.openPreset(curPreset);
+	}
+	readCurrentPresetInfo();
+}
+
 void loop() {
 	ProcessSerial();
+	wirelessHC.process();
 
 	if ((settingsFileUpdated == false) && settingsFileUpdaterTimer > 1000)
 	{
 		writeSettings();
 		settingsFileUpdated = true;
-	}
-
-	if (buttonOnOff.update() && buttonOnOff.risingEdge() && !firstRun)
-	{
-		enabled = !enabled;
-
-		for (int i = 0; i < LED_STRIPS_COUNT; i++)
-		{
-			ledStrips.strip[i].updateStripData();
-		}
-
-		if (!enabled)
-			ledStrips.turnStripsOff();
-	}
-	if (buttonNext.update() && buttonNext.risingEdge() && !firstRun)
-	{
-		curPreset++;
-		if (!sd.openPreset(curPreset))
-		{
-			curPreset = 0;
-			sd.openPreset(curPreset);
-		}
-		readCurrentPresetInfo();
 	}
 
 	if (enabled)
