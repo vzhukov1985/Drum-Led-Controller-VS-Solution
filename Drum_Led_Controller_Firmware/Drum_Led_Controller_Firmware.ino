@@ -13,9 +13,6 @@
 #define LEDS_PER_STRIP_MAX 200
 #define TRIGGERS_COUNT 5
 
-#define BUTTON_ON_OFF 24		//On/Off Button
-#define BUTTON_NEXT 25			//Next Button
-
 
 ControlsClass controls; //Buttons & StatusLed
 SdCardClass sd;
@@ -28,10 +25,6 @@ int drawingMemory[LEDS_PER_STRIP_MAX * 6];
 const int config = WS2811_GRB | WS2811_800kHz;
 OctoWS2811 ledStripsEngine(LEDS_PER_STRIP_MAX, displayMemory, drawingMemory, config);
 
-Bounce buttonOnOff = Bounce(BUTTON_ON_OFF, 10);
-Bounce buttonNext = Bounce(BUTTON_NEXT, 10);
-
-uint16_t curPreset = 0;
 uint8_t frameBuffer[LEDS_PER_STRIP_MAX * 3];
 uint32_t microsPerFrame;
 elapsedMicros frameElapsedMicros;
@@ -124,9 +117,6 @@ void setup() {
 	pinMode(9, OUTPUT);
 	analogWrite(9, 1023);
 
-	pinMode(BUTTON_ON_OFF, INPUT_PULLUP);
-	pinMode(BUTTON_NEXT, INPUT_PULLUP);
-
 	//Initializing Sd Card
 	if (sd.init())
 		controls.ledTurnOnGreen();
@@ -149,7 +139,17 @@ void setup() {
 	//Reading settings.ini
 	readSettings();
 
-	if (sd.openPreset(curPreset))
+	if (sd.openPresetsList())
+	{
+		controls.ledTurnOnGreen();
+	}
+	else
+	{
+		controls.ledTurnOnRed();
+	}
+
+
+	if (sd.openNextPreset())
 	{
 		controls.ledTurnOnGreen();
 		readCurrentPresetInfo();
@@ -158,6 +158,8 @@ void setup() {
 	{
 		controls.ledTurnOnRed();
 	}
+
+
 	ledStrips.turnStripsOff();
 }
 
@@ -176,12 +178,7 @@ void OnOffStrips()
 
 void SwitchToNextPreset()
 {
-	curPreset++;
-	if (!sd.openPreset(curPreset))
-	{
-		curPreset = 0;
-		sd.openPreset(curPreset);
-	}
+	sd.openNextPreset();
 	readCurrentPresetInfo();
 }
 

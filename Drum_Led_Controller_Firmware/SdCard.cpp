@@ -66,17 +66,39 @@ bool SdCardClass::init()
     return res;
 }
 
-bool SdCardClass::openPreset(uint16_t presetNum)
+bool SdCardClass::openPresetsList()
+{
+    if (!sd.exists("PresetsList.ini"))
+        return false;
+
+    presetslistFile.open("PresetsList.ini", O_RDWR);
+    presetslistFile.read(&presetsCount, 2);
+	return true;
+}
+
+bool SdCardClass::openNextPreset()
 {
     presetFile.close();
+
+    curPreset++;
+    if (curPreset > presetsCount)
+    {
+        curPreset = 1;
+        presetslistFile.seek(2);
+    }
+
+    uint8_t fileNameLength = presetslistFile.read();
     char presetFileName[255];
-    sprintf(presetFileName, "%d.dlp", presetNum);
+    for (int i = 0; i < fileNameLength; i++)
+    {
+        presetFileName[i] = presetslistFile.read();
+    }
+    presetFileName[fileNameLength] = '\0';
     
     if (!sd.exists(presetFileName))
         return false;
 
     presetFile.open(presetFileName);
-
 }
 
 
