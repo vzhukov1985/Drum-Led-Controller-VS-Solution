@@ -94,6 +94,7 @@ bool SdCardClass::openNextPreset()
         presetFileName[i] = presetslistFile.read();
     }
     presetFileName[fileNameLength] = '\0';
+    strcat(presetFileName, ".dlp");
     
     if (!sd.exists(presetFileName))
         return false;

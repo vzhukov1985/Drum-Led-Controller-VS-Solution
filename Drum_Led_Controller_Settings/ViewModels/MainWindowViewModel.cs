@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Drum_Led_Controller_Settings.Classes;
+using Drum_Led_Controller_Settings.Models;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
+using Microsoft.Win32;
+using Drum_Led_Controller_Settings.Views;
+using System.Diagnostics;
+using System.IO;
 
 namespace Drum_Led_Controller_Settings.ViewModels
 {
@@ -17,6 +21,9 @@ namespace Drum_Led_Controller_Settings.ViewModels
         public ControllerSettings Settings { get; set; }
 
         private SerialPort serial;
+
+        public ObservableCollection<String> PresetsList { get; set; }
+
 
         private bool serialConnected;
         public bool SerialConnected
@@ -40,6 +47,16 @@ namespace Drum_Led_Controller_Settings.ViewModels
             }
         }
 
+
+        //Commands
+        public RelayCommand ExitCommand { get; }
+        public RelayCommand UpdateSerialPortsCommand { get; }
+        public RelayCommand ConnectCommand { get; }
+        public RelayCommand AddPresetCommand { get; }
+
+
+
+
         public void UpdateAvailableComPorts()
         {
             AvailableComPorts = SerialPort.GetPortNames();
@@ -50,6 +67,7 @@ namespace Drum_Led_Controller_Settings.ViewModels
             byte[] InCommandHeader = new byte[6];
             serial.Read(InCommandHeader, 0, 6);
             string CommandHeader = System.Text.Encoding.ASCII.GetString(InCommandHeader);
+            //Получение от контроллера настроек
             if (CommandHeader == "CPSETS")
             {
                 byte[] val = new byte[2];
@@ -66,6 +84,25 @@ namespace Drum_Led_Controller_Settings.ViewModels
                     Settings.TriggerSettings[i].HighThreshold = BitConverter.ToUInt16(val, 0);
                 }
             }
+
+            //Получение от контроллера списка презетов
+            if (CommandHeader == "CPRQPL")
+            {
+                PresetsList.Clear();
+
+                byte[] val = new byte[2];
+                serial.Read(val, 0, 2);
+                int presetsCount = BitConverter.ToUInt16(val, 0);
+
+                for (int i = 0; i < presetsCount; i++)
+                {
+                    byte fileNameLength = (byte)serial.ReadByte();
+                    byte[] fileName = new byte[fileNameLength];
+                    serial.Read(fileName, 0, fileNameLength);
+                    PresetsList.Add(Encoding.ASCII.GetString(fileName));
+                }
+            }
+
         }
 
         public void SendSettingsToController()
@@ -100,6 +137,8 @@ namespace Drum_Led_Controller_Settings.ViewModels
             {
                 SerialConnected = true;
                 serial.Write("PCREQS");
+                Thread.Sleep(300);
+                serial.Write("PCRQPL");
             }
         }
 
@@ -117,17 +156,58 @@ namespace Drum_Led_Controller_Settings.ViewModels
         }
 
 
+        public void AddPreset()
+        {
+            OpenFileDialog dlgOpen = new OpenFileDialog();
+            dlgOpen.Filter = "Drum LED Controller Presets|*.dlp";
+            dlgOpen.Title = "Добавить презет...";
+
+            if (dlgOpen.ShowDialog() == true)
+            {
+                String sourceFileName = dlgOpen.FileName;
+                String destinationPresetName = sourceFileName;
+                bool presetAvailable = false;
+                foreach (String availablePreset in PresetsList)
+                {
+                    if (sourceFileName == availablePreset)
+                    {
+                        presetAvailable = true;
+                    }
+                }
+
+                bool addExistingPreset = false;
+
+                if (presetAvailable)
+                {
+                    PresetAvailableDialog dlgPresAvail = new PresetAvailableDialog();
+                    PresetAvailableDialogViewModel dlgPresAvailVM = (PresetAvailableDialogViewModel)dlgPresAvail.DataContext;
+                    List<string> ListNames = dlgPresAvailVM.ListNames;
+                    foreach (string PresetName in PresetsList)
+                        ListNames.Add(PresetName);
+
+                    if (dlgPresAvail.ShowDialog() == true)
+                    {
+                        if (dlgPresAvailVM.AddExisting == true)
+                        {
+                            addExistingPreset = true;
+                            destinationPresetName = Path.GetFileNameWithoutExtension(sourceFileName);
+                        }
+                        else
+                        {
+                            destinationPresetName = dlgPresAvailVM.NewName;
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
 
 
+                }
+            }
 
 
-
-
-
-        //Commands
-        public RelayCommand ExitCommand { get; }
-        public RelayCommand UpdateSerialPortsCommand { get; }
-        public RelayCommand ConnectCommand { get; }
+        }
 
 
 
@@ -139,6 +219,10 @@ namespace Drum_Led_Controller_Settings.ViewModels
                 Settings.TriggerSettings[i].OnSettingsUpdated = SendSettingsToController;
 
             serial = new SerialPort();
+
+
+            PresetsList = new AsyncObservableCollection<string>();
+
             //Commands
             ExitCommand = new RelayCommand(o =>
             {
@@ -147,6 +231,8 @@ namespace Drum_Led_Controller_Settings.ViewModels
             });
             UpdateSerialPortsCommand = new RelayCommand(_ => { UpdateAvailableComPorts(); });
             ConnectCommand = new RelayCommand(o => Connect((string)o), o => ((string)o != null));
+            AddPresetCommand = new RelayCommand(_ => { AddPreset(); });
+
         }
 
     }

@@ -10,22 +10,22 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Drum_Led_Controller_Settings.ViewModels;
 
-
-namespace Drum_Led_Controller_Settings
+namespace Drum_Led_Controller_Settings.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PresetAvailableDialog : Window
     {
-        public MainWindow()
+        public PresetAvailableDialog()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
+        }
+        public void OK_Button_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
         }
     }
 }

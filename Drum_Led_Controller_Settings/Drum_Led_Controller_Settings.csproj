@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -61,11 +62,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\RelayCommand.cs" />
-    <Compile Include="Classes\SerialConnection.cs" />
+    <Compile Include="Models\AsyncObservableCollection.cs" />
+    <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="Classes\TriggerSetting.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Models\TriggerSetting.cs" />
+    <Compile Include="ViewModels\PresetAvailableDialogViewModel.cs" />
+    <Compile Include="Views\PresetAvailableDialog.xaml.cs">
+      <DependentUpon>PresetAvailableDialog.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -73,11 +78,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Classes\ControllerSettings.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Models\ControllerSettings.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PresetAvailableDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

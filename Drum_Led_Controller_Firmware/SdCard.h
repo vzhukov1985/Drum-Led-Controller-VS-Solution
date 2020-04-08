@@ -32,7 +32,6 @@ private:
 	uint16_t frameCount = 0;
 	uint8_t curFrame = 0;
 
-	uint16_t presetsCount = 0;
 	uint16_t curPreset = 0;
 
  protected:
@@ -42,6 +41,9 @@ private:
 	 FsFile settingsFile;
 	 FsFile presetslistFile;
 	 FsFile presetFile;
+
+	 uint16_t presetsCount = 0;
+
 
 	bool init();
 

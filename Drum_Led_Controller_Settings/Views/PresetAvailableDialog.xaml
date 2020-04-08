@@ -1,0 +1,37 @@
+﻿<Window x:Class="Drum_Led_Controller_Settings.Views.PresetAvailableDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Drum_Led_Controller_Settings.Views"
+        xmlns:viewModel="clr-namespace:Drum_Led_Controller_Settings.ViewModels"
+        mc:Ignorable="d"
+        Title="Программа с таким именем уже существет" Height="190" Width="600" x:Name="wndPresetAvailableDialog">
+
+    <Window.DataContext>
+        <viewModel:PresetAvailableDialogViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Внимание! Программа с таким именем уже существует!" FontWeight="Bold" FontSize="15" HorizontalAlignment="Center" Margin="0,5,0,5"/>
+            <TextBlock Text="Добавить снова в список программу, которая уже существует или добавить эту новую программу под другим именем?" HorizontalAlignment="Center" Width="500" TextWrapping="Wrap" TextAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Margin="50,10,0,0" >
+            <RadioButton Content="Добавить уже существующую еще раз в список" IsChecked="{Binding AddExisting}" GroupName="Selection"/>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="Добавить программу под новым именем:" Margin="0,5,0,0" GroupName="Selection" IsChecked="{Binding AddWithNewName}"/>
+                <TextBox Name="prstNewName" Width="150" Margin="5,4,0,0" IsEnabled="{Binding AddWithNewName}" Text="{Binding NewName, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Height="25" Margin="0,5,0,8">
+            <Button Name="btOk" Content="Ok" Width="100" IsEnabled="{Binding OkEnabled}" IsDefault="True" Click="OK_Button_Click"/>
+            <Button Name="btCancel" Content="Отмена" IsCancel="True" Width="100" Margin="100,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

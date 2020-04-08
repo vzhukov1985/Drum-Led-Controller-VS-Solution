@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Drum_Led_Controller_Settings.Classes
+namespace Drum_Led_Controller_Settings.Models
 {
     class RelayCommand : ICommand
     {

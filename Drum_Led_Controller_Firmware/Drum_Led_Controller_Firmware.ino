@@ -81,6 +81,8 @@ void ProcessSerial()
 	while (Serial.available())
 	{
 		Serial.readBytes(cmdHeader, 6);
+
+		//Если послан запрос от контроллера - выдать настройки
 		if (strcmp(cmdHeader, "PCREQS") == 0)
 		{
 			//Sending settings
@@ -94,6 +96,8 @@ void ProcessSerial()
 				Serial.write((byte*)&triggers[i].highThreshold, 2);
 			}
 		}
+
+		//Если послан запрос от контроллера - обновить настройки
 		if (strcmp(cmdHeader, "PCSETS") == 0)
 		{
 			//Receiving settings
@@ -107,6 +111,19 @@ void ProcessSerial()
 
 			settingsFileUpdated = false;
 			settingsFileUpdaterTimer = 0;
+		}
+
+		//Если послан запрос от контроллера - выдать список презетов
+		if (strcmp(cmdHeader, "PCRQPL") == 0)
+		{
+			char outHeader[7] = "CPRQPL";
+			Serial.write(outHeader);
+			Serial.write((byte *)&sd.presetsCount, 2);
+			uint64_t presetsListFilePos = sd.presetslistFile.curPosition();
+			sd.presetslistFile.seekSet(2);
+			for (int i = 0; i < (sd.presetslistFile.fileSize() - 2); i++)
+				Serial.write((byte)sd.presetslistFile.read());
+			sd.presetslistFile.seekSet(presetsListFilePos);
 		}
 	}
 }

@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 
 
-namespace Drum_Led_Controller_Settings.Classes
+namespace Drum_Led_Controller_Settings.Models
 {
     class ControllerSettings: INotifyPropertyChanged
     {

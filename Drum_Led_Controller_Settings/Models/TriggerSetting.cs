@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Drum_Led_Controller_Settings.Classes
+namespace Drum_Led_Controller_Settings.Models
 {
     class TriggerSetting:INotifyPropertyChanged
     {
