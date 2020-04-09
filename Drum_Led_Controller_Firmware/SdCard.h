@@ -33,7 +33,7 @@ private:
 	uint8_t curFrame = 0;
 
 	uint16_t curPreset = 0;
-
+	
  protected:
 
 
@@ -56,6 +56,9 @@ private:
 	uint8_t readProgBrightness();
 	void readFramesInfo();
 	void readFrame(uint8_t *frameBuffer);
+	void addPresetFile(Stream* serialStream);
+	void updatePresetsListFile(Stream* serialStream);
+	void removePresetFile(Stream* serialStream);
 };
 
 #endif

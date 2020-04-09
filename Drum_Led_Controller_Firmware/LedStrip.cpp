@@ -23,6 +23,7 @@ void LedStripClass::init(OctoWS2811* ledsEngine, uint16_t ledsPerStripMaxUsed, u
     if (setAdditionalStripPin > 0)
     {
         pinMode(additionalStripPin, OUTPUT);
+        analogWrite(additionalStripPin, 0);
     }
 }
 

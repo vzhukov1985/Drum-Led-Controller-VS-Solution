@@ -10,9 +10,63 @@ using System.Threading.Tasks;
 
 namespace Drum_Led_Controller_Settings.Models
 {
+    /*   public class AsyncObservableCollection<T> : ObservableCollection<T>
+       {
+           private SynchronizationContext _synchronizationContext = SynchronizationContext.Current;
+
+           public AsyncObservableCollection()
+           {
+           }
+
+           public AsyncObservableCollection(IEnumerable<T> list)
+               : base(list)
+           {
+           }
+
+           protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+           {
+               if (SynchronizationContext.Current == _synchronizationContext)
+               {
+                   // Execute the CollectionChanged event on the current thread
+                   RaiseCollectionChanged(e);
+               }
+               else
+               {
+                   // Raises the CollectionChanged event on the creator thread
+                   _synchronizationContext.Send(RaiseCollectionChanged, e);
+               }
+           }
+
+           private void RaiseCollectionChanged(object param)
+           {
+               // We are in the creator thread, call the base implementation directly
+               base.OnCollectionChanged((NotifyCollectionChangedEventArgs)param);
+           }
+
+           protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+           {
+               if (SynchronizationContext.Current == _synchronizationContext)
+               {
+                   // Execute the PropertyChanged event on the current thread
+                   RaisePropertyChanged(e);
+               }
+               else
+               {
+                   // Raises the PropertyChanged event on the creator thread
+                   _synchronizationContext.Send(RaisePropertyChanged, e);
+               }
+           }
+
+           private void RaisePropertyChanged(object param)
+           {
+               // We are in the creator thread, call the base implementation directly
+               base.OnPropertyChanged((PropertyChangedEventArgs)param);
+           }
+       }*/
+
     public class AsyncObservableCollection<T> : ObservableCollection<T>
     {
-        private SynchronizationContext _synchronizationContext = SynchronizationContext.Current;
+        private readonly SynchronizationContext _synchronizationContext = SynchronizationContext.Current;
 
         public AsyncObservableCollection()
         {
@@ -23,44 +77,42 @@ namespace Drum_Led_Controller_Settings.Models
         {
         }
 
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        private void ExecuteOnSyncContext(Action action)
         {
             if (SynchronizationContext.Current == _synchronizationContext)
             {
-                // Execute the CollectionChanged event on the current thread
-                RaiseCollectionChanged(e);
+                action();
             }
             else
             {
-                // Raises the CollectionChanged event on the creator thread
-                _synchronizationContext.Send(RaiseCollectionChanged, e);
+                _synchronizationContext.Send(_ => action(), null);
             }
         }
 
-        private void RaiseCollectionChanged(object param)
+        protected override void InsertItem(int index, T item)
         {
-            // We are in the creator thread, call the base implementation directly
-            base.OnCollectionChanged((NotifyCollectionChangedEventArgs)param);
+            ExecuteOnSyncContext(() => base.InsertItem(index, item));
         }
 
-        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+        protected override void RemoveItem(int index)
         {
-            if (SynchronizationContext.Current == _synchronizationContext)
-            {
-                // Execute the PropertyChanged event on the current thread
-                RaisePropertyChanged(e);
-            }
-            else
-            {
-                // Raises the PropertyChanged event on the creator thread
-                _synchronizationContext.Send(RaisePropertyChanged, e);
-            }
+            ExecuteOnSyncContext(() => base.RemoveItem(index));
         }
 
-        private void RaisePropertyChanged(object param)
+        protected override void SetItem(int index, T item)
         {
-            // We are in the creator thread, call the base implementation directly
-            base.OnPropertyChanged((PropertyChangedEventArgs)param);
+            ExecuteOnSyncContext(() => base.SetItem(index, item));
+        }
+
+        protected override void MoveItem(int oldIndex, int newIndex)
+        {
+            ExecuteOnSyncContext(() => base.MoveItem(oldIndex, newIndex));
+        }
+
+        protected override void ClearItems()
+        {
+            ExecuteOnSyncContext(() => base.ClearItems());
         }
     }
+
 }

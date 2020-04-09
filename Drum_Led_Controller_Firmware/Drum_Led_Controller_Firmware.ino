@@ -82,7 +82,7 @@ void ProcessSerial()
 	{
 		Serial.readBytes(cmdHeader, 6);
 
-		//Если послан запрос от контроллера - выдать настройки
+		//Если послан запрос от компа - выдать настройки
 		if (strcmp(cmdHeader, "PCREQS") == 0)
 		{
 			//Sending settings
@@ -97,7 +97,7 @@ void ProcessSerial()
 			}
 		}
 
-		//Если послан запрос от контроллера - обновить настройки
+		//Если послан запрос от компа - обновить настройки
 		if (strcmp(cmdHeader, "PCSETS") == 0)
 		{
 			//Receiving settings
@@ -113,7 +113,7 @@ void ProcessSerial()
 			settingsFileUpdaterTimer = 0;
 		}
 
-		//Если послан запрос от контроллера - выдать список презетов
+		//Если послан запрос от компа - выдать список презетов
 		if (strcmp(cmdHeader, "PCRQPL") == 0)
 		{
 			char outHeader[7] = "CPRQPL";
@@ -125,6 +125,29 @@ void ProcessSerial()
 				Serial.write((byte)sd.presetslistFile.read());
 			sd.presetslistFile.seekSet(presetsListFilePos);
 		}
+
+		//Если послана команда добавить файл в контроллер
+		if (strcmp(cmdHeader, "PCADFL") == 0)
+			sd.addPresetFile(&Serial);
+
+		//Если послана команда обновить файл плейлиста
+		if (strcmp(cmdHeader, "PCUDPL") == 0)
+		{
+			enabled = false;
+			ledStrips.turnStripsOff();
+			sd.updatePresetsListFile(&Serial);
+			sd.openPresetsList();
+			SwitchToNextPreset();
+		}
+
+		if (strcmp(cmdHeader, "PCREMP") == 0)
+		{
+			enabled = false;
+			ledStrips.turnStripsOff();
+			sd.presetFile.close();
+			sd.removePresetFile(&Serial);
+		}
+
 	}
 }
 
@@ -165,38 +188,40 @@ void setup() {
 		controls.ledTurnOnRed();
 	}
 
-
-	if (sd.openNextPreset())
-	{
-		controls.ledTurnOnGreen();
-		readCurrentPresetInfo();
-	}
-	else
-	{
-		controls.ledTurnOnRed();
-	}
-
+	SwitchToNextPreset();
 
 	ledStrips.turnStripsOff();
 }
 
 void OnOffStrips()
 {
-	enabled = !enabled;
-
-	for (int i = 0; i < LED_STRIPS_COUNT; i++)
+	if (sd.presetsCount > 0)
 	{
-		ledStrips.strip[i].updateStripData();
-	}
+		enabled = !enabled;
 
-	if (!enabled)
-		ledStrips.turnStripsOff();
+		for (int i = 0; i < LED_STRIPS_COUNT; i++)
+		{
+			ledStrips.strip[i].updateStripData();
+		}
+
+		if (!enabled)
+			ledStrips.turnStripsOff();
+	}
 }
+
 
 void SwitchToNextPreset()
 {
-	sd.openNextPreset();
-	readCurrentPresetInfo();
+	if (sd.presetsCount > 0)
+	{
+		sd.openNextPreset();
+		readCurrentPresetInfo();
+	}
+	else
+	{
+		enabled = false;
+		ledStrips.turnStripsOff();
+	}
 }
 
 void loop() {
@@ -228,6 +253,6 @@ void loop() {
 		}
 	}
 	ledStripsEngine.show();
-
+	
 	firstRun = false;
 }

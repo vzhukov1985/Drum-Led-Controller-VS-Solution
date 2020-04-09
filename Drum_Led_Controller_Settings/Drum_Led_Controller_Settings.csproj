@@ -64,11 +64,16 @@
     </ApplicationDefinition>
     <Compile Include="Models\AsyncObservableCollection.cs" />
     <Compile Include="Models\RelayCommand.cs" />
+    <Compile Include="Models\SerialConnection.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Models\TriggerSetting.cs" />
     <Compile Include="ViewModels\PresetAvailableDialogViewModel.cs" />
+    <Compile Include="ViewModels\RemovePresetDialogViewModel.cs" />
     <Compile Include="Views\PresetAvailableDialog.xaml.cs">
       <DependentUpon>PresetAvailableDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RemovePresetDialog.xaml.cs">
+      <DependentUpon>RemovePresetDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -84,6 +89,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\PresetAvailableDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RemovePresetDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -114,6 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
