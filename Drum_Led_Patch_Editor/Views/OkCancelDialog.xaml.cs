@@ -11,29 +11,22 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Drum_Led_Patch_Editor.ViewModels;
-using Drum_Led_Patch_Editor.Services;
 
 namespace Drum_Led_Patch_Editor.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for OkCancelDialog.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class OkCancelDialog : Window
     {
-        public MainWindow()
+        public OkCancelDialog()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel(new WindowsDialogService(this), new WindowsFileService());
         }
 
-        public void CloseApplication()
+        private void btOk_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-        }
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            CloseApplication();
+            DialogResult = true;
         }
     }
 }

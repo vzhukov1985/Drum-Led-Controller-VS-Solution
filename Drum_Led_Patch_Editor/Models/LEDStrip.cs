@@ -9,25 +9,26 @@ using System.Runtime.CompilerServices;
 
 namespace Drum_Led_Patch_Editor.Models
 {
-    enum ConnectionDirectionType
+    public enum ConnectionDirectionType
     {
         TrigProg,
         ProgTrig
     }
 
-    enum AdditionalStripBehaviourType
+    public enum AdditionalStripBehaviourType
     {
         AlwaysOff,
         AlwaysOn,
         TriggerActivated
     }
 
-    enum TriggerLedsColorBehaviourType
+    public enum TriggerLedsColorBehaviourType
     {
         Constant,
         Random
     }
-
+    
+    [System.Serializable]
     public class LEDStrip : INotifyPropertyChanged
     {
         private string name;
@@ -39,7 +40,6 @@ namespace Drum_Led_Patch_Editor.Models
         private int triggerLedsCount;
         private int programmedLedsCount;
 
-        #region Properties
 
         public string Name
         {
@@ -50,7 +50,7 @@ namespace Drum_Led_Patch_Editor.Models
                 OnPropertyChanged("Name");
             }
         }
-        internal ConnectionDirectionType ConnectionDirection
+        public ConnectionDirectionType ConnectionDirection
         {
             get { return connectionDirection; }
             set { 
@@ -69,7 +69,7 @@ namespace Drum_Led_Patch_Editor.Models
             }
         }
 
-        internal AdditionalStripBehaviourType AdditionalStripBehaviour
+        public AdditionalStripBehaviourType AdditionalStripBehaviour
         {
             get { return additionalStripBehaviour; }
             set
@@ -79,7 +79,7 @@ namespace Drum_Led_Patch_Editor.Models
             }
         }
 
-        internal TriggerLedsColorBehaviourType TriggerLedsColorBehaviour
+        public TriggerLedsColorBehaviourType TriggerLedsColorBehaviour
         {
             get { return triggerLedsColorBehaviour; }
             set
@@ -119,7 +119,7 @@ namespace Drum_Led_Patch_Editor.Models
             }
         }
 
-        #endregion Properties
+
 
 
         #region PropertyChanged Interface
@@ -132,16 +132,21 @@ namespace Drum_Led_Patch_Editor.Models
 #endregion PropertyChanged Interface
 
 
-        public LEDStrip(string Name)
+        public LEDStrip()
         {
-            this.Name = Name;
-            ConnectionDirection = ConnectionDirectionType.ProgTrig;
+            Name = "None";
+            ConnectionDirection = ConnectionDirectionType.TrigProg;
             HasAdditionalStrip = false;
             AdditionalStripBehaviour = AdditionalStripBehaviourType.AlwaysOff;
             TriggerLedsColorBehaviour = TriggerLedsColorBehaviourType.Random;
             TriggerLedsColor = Color.FromRgb(0, 0, 0);
             TriggerLedsCount = 0;
             ProgrammedLedsCount = 5;
+        }
+
+        public LEDStrip(string Name):this()
+        {
+            this.Name = Name;
         }
     }
 }

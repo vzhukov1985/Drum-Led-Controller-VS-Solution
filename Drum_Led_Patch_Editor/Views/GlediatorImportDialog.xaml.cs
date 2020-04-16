@@ -12,28 +12,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Drum_Led_Patch_Editor.ViewModels;
-using Drum_Led_Patch_Editor.Services;
 
 namespace Drum_Led_Patch_Editor.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for GlediatorImportDialog.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class GlediatorImportDialog : Window
     {
-        public MainWindow()
+        public GlediatorImportDialog()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel(new WindowsDialogService(this), new WindowsFileService());
+            DataContext = new GlediatorImportViewModel();
         }
 
-        public void CloseApplication()
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-        }
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            CloseApplication();
+            DialogResult = true;
         }
     }
 }

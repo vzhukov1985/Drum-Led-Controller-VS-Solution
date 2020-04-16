@@ -61,6 +61,10 @@ void writeSettings()
 
 void readCurrentPresetInfo()
 {
+	ledStrips.trigBrightness = sd.readTrigBrightness();
+	ledStrips.progBrightness = ledStrips.trigBrightness;
+	ledStrips.fps = sd.readFps();
+	microsPerFrame = (uint32_t)1000000 / ledStrips.fps;
 	//Reading each strip's info from preset
 	for (int i = 0; i < LED_STRIPS_COUNT; i++)
 	{
@@ -68,10 +72,6 @@ void readCurrentPresetInfo()
 	}
 	//Reading frames Info
 	sd.readFramesInfo();
-	ledStrips.fps = sd.readFps();
-	microsPerFrame = (uint32_t)1000000 / ledStrips.fps;
-	ledStrips.trigBrightness = sd.readTrigBrightness();
-	ledStrips.progBrightness = sd.readProgBrightness();
 }
 
 void ProcessSerial()

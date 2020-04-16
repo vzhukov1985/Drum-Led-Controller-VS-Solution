@@ -13,5 +13,6 @@ namespace Drum_Led_Patch_Editor
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

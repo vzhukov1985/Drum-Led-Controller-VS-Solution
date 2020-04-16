@@ -1,0 +1,31 @@
+﻿<Window x:Class="Drum_Led_Patch_Editor.Views.OkCancelDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Drum_Led_Patch_Editor.Views"
+        xmlns:viewModel="clr-namespace:Drum_Led_Patch_Editor.ViewModels"
+        mc:Ignorable="d"
+        x:Name="wndOkCancelDialog" Title="{Binding Title}" Height="150" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+
+    <Window.DataContext>
+        <viewModel:OkCancelDialogViewModel/>
+    </Window.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Question}" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+        <Grid Grid.Row="2" Margin="0,5,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btOk" Content="Ok" Width="100" IsDefault="True" Click="btOk_Click"/>
+            <Button x:Name="btCancel" Grid.Column="1" Content="Отмена" Width="100" IsCancel="True"/>
+        </Grid>
+              
+    </Grid>
+</Window>

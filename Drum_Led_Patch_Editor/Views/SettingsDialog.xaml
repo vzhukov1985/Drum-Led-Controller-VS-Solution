@@ -1,0 +1,148 @@
+﻿<Window x:Class="Drum_Led_Patch_Editor.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Drum_Led_Patch_Editor"
+        xmlns:converters="clr-namespace:Drum_Led_Patch_Editor.Converters"
+        xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:viewModel="clr-namespace:Drum_Led_Patch_Editor.ViewModels"
+        xmlns:helpers="clr-namespace:Drum_Led_Patch_Editor.Helpers"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        x:Name="wndSettings"
+        Title="Настройки стветодиодных лент для программы" Height="503" Width="780" WindowStartupLocation="CenterOwner">
+
+    <Window.Resources>
+        <converters:EnumToIntConverter x:Key="EnumToInt" />
+        <converters:ColorToBrushConverter x:Key="ColorToBrush" />
+        <converters:TriggersLedsColorBehaviourToBoolConverter x:Key="TLCBToBool" />
+        <CollectionViewSource x:Key="SortedProfiles" Source="{Binding Profiles}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="Name"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ItemsControl>
+            <ItemsControl.Resources>
+                <CollectionViewSource x:Key="LEDStripsSettings" Source="{Binding PresetSettings.LEDStrips, UpdateSourceTrigger=PropertyChanged}" />
+            </ItemsControl.Resources>
+
+
+            <ItemsControl.ItemsSource>
+                <CompositeCollection>
+                    <CollectionContainer Collection="{Binding Source={StaticResource LEDStripsSettings}}" />
+                    <StackPanel Orientation="Vertical" Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                       <TextBlock Text="Общие настройки:" FontSize="20" FontWeight="Bold"/>
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Яркость:" Grid.Column="0" HorizontalAlignment="Right"/>
+                            <Slider x:Name="slBrightness" Width="150" Minimum="1" Maximum="255" Grid.Column="1" Value="{Binding PresetSettings.Brightness}"/>
+                            <TextBox x:Name="tbxBrightness" Width="30" Margin="5,0,0,0" VerticalAlignment="Top" Grid.Column="2" Text="{Binding PresetSettings.Brightness, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Скорость (кадров/сек):" Grid.Column="0" HorizontalAlignment="Right"/>
+                            <Slider x:Name="slFPS" Width="150" Minimum="1" Maximum="30" Grid.Column="1" Value="{Binding PresetSettings.FPS}"/>
+                            <TextBox x:Name="tbxFPS" Width="30" Margin="5,0,0,0" VerticalAlignment="Top" Grid.Column="2" Text="{Binding PresetSettings.FPS, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                        <Button Content="Сохранить как настройки по умолчанию" Margin="5,30,0,0" Width="300" Command="{Binding SaveDefaultSettingsCommand}"/>
+                    </StackPanel>
+                </CompositeCollection>
+            </ItemsControl.ItemsSource>
+           
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="2" Rows="3" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                     <StackPanel Orientation="Vertical" Margin="10,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal" Margin="6,5,0,0">
+                            <TextBlock Text="Триггер LEDы:" />
+                            <TextBox Text="{Binding Path=TriggerLedsCount}" Width="20" Margin="5,0,0,0"/>
+                            <TextBlock Text="Програм. LEDы:" Margin="20,0,0,0" />
+                            <TextBox Text="{Binding Path=ProgrammedLedsCount}" Width="20" Margin="5,0,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="6,5,0,0">
+                            <TextBlock Text="Подключение:" VerticalAlignment="Center"/>
+                            <ComboBox Width="250" HorizontalAlignment="Left" Margin="5,0,0,0" SelectedIndex="{Binding ConnectionDirection, Converter={StaticResource EnumToInt}}">
+                                <TextBlock Text="Выход->Триггеры->Программируемые" />
+                                <TextBlock Text="Выход->Программируемые->Триггеры" />
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="6,5,0,0">
+                            <CheckBox x:Name="chkHasAdditionalStrip" Content="Доп.лента" VerticalAlignment="Center" IsChecked="{Binding HasAdditionalStrip}"/>
+                            <ComboBox Width="125" Margin="5,0,0,0" SelectedIndex="{Binding AdditionalStripBehaviour, Converter={StaticResource EnumToInt}}" IsEnabled="{Binding ElementName=chkHasAdditionalStrip, Path=IsChecked}">
+                                <TextBlock Text="Выключена"/>
+                                <TextBlock Text="Включена всегда" />
+                                <TextBlock Text="Триггеруемая"/>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="6,5,0,0">
+                            <TextBlock Text="Цвет триггеруемых LEDов:" VerticalAlignment="Center"/>
+                            <ComboBox Margin="5,0,0,0" Width="120" SelectedIndex="{Binding TriggerLedsColorBehaviour, Converter={StaticResource EnumToInt}}">
+                                <TextBlock Text="Один цвет"/>
+                                <TextBlock Text="Случайный цвет" />
+                            </ComboBox>
+                            <xctk:ColorPicker Name="ClrPcker_Background" Width="57" Height="20" Margin="10,0,0,0" SelectedColor="{Binding TriggerLedsColor}" IsEnabled="{Binding TriggerLedsColorBehaviour, Converter={StaticResource TLCBToBool}}"/>
+
+                        </StackPanel>
+                    </StackPanel>
+                    
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,10" HorizontalAlignment="Center">
+                <TextBlock Text="Профиль:" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cmbProfile" Width="150" Margin="5,0,0,0" ItemsSource="{Binding Source={StaticResource SortedProfiles}}" Text="{Binding ProfileNameText}" DisplayMemberPath="Name" IsEditable="True" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="DropDownClosed">
+                            <i:InvokeCommandAction Command="{Binding LoadProfileByListCommand}" CommandParameter="{Binding ElementName=cmbProfile,Path=SelectedItem}" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="KeyDown">
+                            <helpers:EventToCommand Command="{Binding LoadProfileByTextCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+
+                <Button Content="Сохранить" Margin="5,0,0,0" Width="80" Command="{Binding SaveProfileCommand}" CommandParameter="{Binding ElementName=cmbProfile, Path=Text}"/>
+                <Button Content="Удалить" Margin="5,0,0,0" Width="80" Command="{Binding DeleteProfileCommand}" CommandParameter="{Binding ElementName=cmbProfile, Path=SelectedItem}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,10">
+                <Button x:Name="btOk" Content="Ok" Width="100" IsDefault="True" Click="btOk_Click"/>
+                <Button Content="Отмена" Width="100" Margin="20,0,30,0" IsCancel="True" />
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+
+</Window>

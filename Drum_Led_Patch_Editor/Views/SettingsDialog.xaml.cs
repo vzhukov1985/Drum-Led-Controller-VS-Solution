@@ -10,30 +10,29 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+using System.IO;
 using Drum_Led_Patch_Editor.ViewModels;
 using Drum_Led_Patch_Editor.Services;
 
-namespace Drum_Led_Patch_Editor.Views
+namespace Drum_Led_Patch_Editor
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SettingsDialog : Window
     {
-        public MainWindow()
+        public SettingsDialog()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel(new WindowsDialogService(this), new WindowsFileService());
+            DataContext = new SettingsDialogViewModel(new WindowsDialogService(this), new WindowsFileService());
         }
 
-        public void CloseApplication()
+        private void btOk_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-        }
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            CloseApplication();
+            DialogResult = true;
         }
     }
 }

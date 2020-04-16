@@ -19,7 +19,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SdFs-2018.6.24", "Drum_Led_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OctoWS2811-1.4", "Drum_Led_Controller_Firmware\Libraries\OctoWS2811\1.4\OctoWS2811\OctoWS2811-1.4.vcxitems", "{D25857B9-D4F7-4A3E-A7A9-07D2D6DAB416}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drum_Led_Patch_Editor", "Drum_Led_Patch_Editor\Drum_Led_Patch_Editor.csproj", "{B489003D-D14F-46AF-9819-B8CD3B65FD1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drum_Led_Presets_Editor", "Drum_Led_Patch_Editor\Drum_Led_Presets_Editor.csproj", "{B489003D-D14F-46AF-9819-B8CD3B65FD1E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drum_Led_Controller_Settings", "Drum_Led_Controller_Settings\Drum_Led_Controller_Settings.csproj", "{38CC4415-2F66-4A06-8911-2D7C6D30EEFD}"
 EndProject
